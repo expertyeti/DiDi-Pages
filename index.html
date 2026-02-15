@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="es-MX">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DiDi | Pasajero</title>
+    <link rel="icon" type="image/x-icon" href="didiicon.ico">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <style>
+        :root {
+            --di-orange: #ff7d41;
+            --di-orange-hover: #ff6018;
+            --di-black: #111111;
+            --di-dark-gray: #333333;
+            --di-light-gray: #f2f2f2;
+            --di-white: #ffffff;
+            
+            --bg-body: var(--di-white);
+            --text-main: var(--di-black);
+            --text-muted: var(--di-dark-gray);
+            --radius-chip: 50px;
+            --font: 'Inter', system-ui, sans-serif;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: var(--font);
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* Navbar */
+        .navbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem 5%;
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(10px);
+            position: fixed;
+            top: 0; width: 100%; z-index: 1000;
+            border-bottom: 1px solid #eee;
+        }
+
+        .logo-img { height: 24px; width: auto; }
+        
+        .btn-login {
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--di-white);
+            text-decoration: none;
+            padding: 10px 24px;
+            border-radius: 4px;
+            background: var(--di-orange);
+            transition: background 0.3s;
+        }
+        .btn-login:hover { background: var(--di-orange-hover); }
+
+        /* Contenedor Principal */
+        .main-container {
+            margin-top: 80px;
+            width: 100%;
+            flex-grow: 1; 
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* --- CHIPS CONTAINER & SCROLL LOGIC --- */
+        .chips-container-center {
+            width: 100%;
+            padding: 1.5rem 0;
+            background: var(--di-white);
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Flechas de Navegación */
+        .nav-arrow {
+            display: none;
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: white;
+            border: 1px solid #eee;
+            width: 36px; height: 36px;
+            border-radius: 50%;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            z-index: 10;
+            cursor: pointer;
+            color: var(--di-orange);
+            align-items: center; justify-content: center;
+            transition: opacity 0.3s;
+        }
+        .nav-arrow.left { left: 10px; }
+        .nav-arrow.right { right: 10px; }
+
+        .chips-wrapper {
+            display: flex;
+            gap: 12px;
+            padding: 0 20px;
+            flex-wrap: wrap; 
+            justify-content: center;
+            scroll-behavior: smooth;
+        }
+
+        input[type="radio"] { display: none; }
+
+        .chip {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 24px;
+            background: var(--di-light-gray);
+            border: 1px solid transparent;
+            border-radius: var(--radius-chip);
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            user-select: none;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+
+        .chip:hover { background: #e0e0e0; }
+        .chip-icon { width: 20px; height: 20px; object-fit: contain; opacity: 0.6; }
+        .chip-text { font-size: 0.95rem; font-weight: 600; color: var(--text-muted); }
+
+        /* Lógica de Activación */
+        #tab-pax:checked ~ .chips-container-center label[for="tab-pax"],
+        #tab-food:checked ~ .chips-container-center label[for="tab-food"],
+        #tab-del:checked ~ .chips-container-center label[for="tab-del"],
+        #tab-fin:checked ~ .chips-container-center label[for="tab-fin"],
+        #tab-drv:checked ~ .chips-container-center label[for="tab-drv"] {
+            background: var(--di-orange);
+            box-shadow: 0 4px 15px rgba(255, 125, 65, 0.3);
+            transform: scale(1.05);
+        }
+
+        #tab-pax:checked ~ .chips-container-center label[for="tab-pax"] *,
+        #tab-food:checked ~ .chips-container-center label[for="tab-food"] *,
+        #tab-del:checked ~ .chips-container-center label[for="tab-del"] *,
+        #tab-fin:checked ~ .chips-container-center label[for="tab-fin"] *,
+        #tab-drv:checked ~ .chips-container-center label[for="tab-drv"] * {
+            color: white;
+            opacity: 1;
+            filter: brightness(0) invert(1);
+        }
+
+        /* Contenido Dinámico */
+        #dynamic-content {
+            width: 100%;
+            flex-grow: 1;
+            position: relative;
+        }
+
+        .fade-in { animation: fadeIn 0.5s cubic-bezier(0.25, 0.8, 0.25, 1) forwards; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* --- FOOTER STYLES --- */
+        .main-footer {
+            background-color: #fff;
+            border-top: 1px solid #eee;
+            padding: 4rem 5%;
+            margin-top: auto;
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .footer-logo-box {
+            margin-bottom: 2.5rem;
+        }
+
+        .footer-logo {
+            height: 32px;
+            width: auto;
+            opacity: 0.9;
+            /* TRUCO CSS: Invertir colores (Blanco -> Negro) */
+            filter: invert(1); 
+        }
+
+        .footer-nav {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 3rem;
+            list-style: none;
+        }
+
+        .footer-link {
+            color: #444;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.2s;
+        }
+
+        .footer-link:hover {
+            color: var(--di-orange);
+        }
+
+        .footer-countries {
+            color: #999;
+            font-size: 0.85rem;
+            line-height: 1.8;
+            border-top: 1px solid #f0f0f0;
+            padding-top: 2rem;
+        }
+
+        /* --- MOBILE STYLES --- */
+        @media (max-width: 900px) {
+            .chips-container-center {
+                justify-content: flex-start;
+                padding: 1rem 0;
+            }
+            .chips-wrapper {
+                flex-wrap: nowrap;
+                overflow-x: auto;
+                justify-content: flex-start;
+                width: 100%;
+                padding: 0 50px;
+                -ms-overflow-style: none;
+                scrollbar-width: none;
+            }
+            .chips-wrapper::-webkit-scrollbar { display: none; }
+            .nav-arrow { display: flex; }
+            
+            /* Footer Mobile adjustments */
+            .footer-nav { gap: 1rem; flex-direction: column; }
+        }
+
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <a href="#"><img src="assets/logo.png" alt="DiDi" class="logo-img"></a>
+        <a href="#" class="btn-login">Descargar App</a>
+    </nav>
+
+    <div class="main-container">
+
+        <input type="radio" name="didi-tabs" id="tab-pax" data-target="pax.html" checked>
+        <input type="radio" name="didi-tabs" id="tab-food" data-target="food.html">
+        <input type="radio" name="didi-tabs" id="tab-del" data-target="delivery.html">
+        <input type="radio" name="didi-tabs" id="tab-fin" data-target="financial.html">
+        <input type="radio" name="didi-tabs" id="tab-drv" data-target="drv.html">
+
+        <div class="chips-container-center">
+            <button class="nav-arrow left" id="scroll-left"><i class="fa-solid fa-chevron-left"></i></button>
+            
+            <div class="chips-wrapper" id="chips-scroll-area">
+                <label for="tab-pax" class="chip" id="label-pax">
+                    <img src="assets/secctions/menu-pax.webp" class="chip-icon">
+                    <span class="chip-text">Pasajero</span>
+                </label>
+                <label for="tab-food" class="chip" id="label-food">
+                    <img src="assets/secctions/menu-food.webp" class="chip-icon">
+                    <span class="chip-text">Comida</span>
+                </label>
+                <label for="tab-del" class="chip" id="label-del">
+                    <img src="assets/secctions/menu-delivery-box.webp" class="chip-icon">
+                    <span class="chip-text">Entrega</span>
+                </label>
+                <label for="tab-fin" class="chip" id="label-fin">
+                    <img src="assets/secctions/menu-financial-service.webp" class="chip-icon">
+                    <span class="chip-text">Finanzas</span>
+                </label>
+                <label for="tab-drv" class="chip" id="label-drv">
+                    <img src="assets/secctions/menu-drv.webp" class="chip-icon">
+                    <span class="chip-text">Conductor</span>
+                </label>
+            </div>
+
+            <button class="nav-arrow right" id="scroll-right"><i class="fa-solid fa-chevron-right"></i></button>
+        </div>
+
+        <div id="dynamic-content"></div>
+
+    </div>
+
+    <footer class="main-footer">
+        <div class="footer-content">
+            <div class="footer-logo-box">
+                <img src="assets/img/logoFooter.png" alt="DiDi Footer" class="footer-logo">
+            </div>
+
+            <nav class="footer-nav">
+                <a href="#" class="footer-link">Socio Conductor</a>
+                <a href="#" class="footer-link">Pasajero</a>
+                <a href="#" class="footer-link">Guías</a>
+                <a href="#" class="footer-link">Artículos</a>
+                <a href="#" class="footer-link">Legal</a>
+                <a href="#" class="footer-link">Carreras</a>
+                <a href="#" class="footer-link">Newsroom</a>
+                <a href="#" class="footer-link">Aeropuerto</a>
+            </nav>
+
+            <div class="footer-countries">
+                Argentina &bull; Australia &bull; Brasil &bull; Chile &bull; Colombia &bull; Costa Rica &bull; DiDi Global &bull; Ecuador &bull; Egipto &bull; Japón &bull; México &bull; Nueva Zelanda &bull; Panamá &bull; Perú &bull; República Dominicana
+            </div>
+            
+            <div style="margin-top: 2rem; font-size: 0.8rem; color: #ccc;">
+                &copy; 2026 DiDi Global. Todos los derechos reservados.
+            </div>
+        </div>
+    </footer>
+
+    <script src="index.js"></script>
+
+</body>
+</html>

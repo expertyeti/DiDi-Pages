@@ -1,0 +1,60 @@
+<style>
+    .hero-uniform { display: flex; width: 100%; height: 600px; background: #fff; overflow: hidden; }
+    .hero-side-text { width: 50%; display: flex; flex-direction: column; justify-content: center; padding: 0 5% 0 8%; background: #fff; z-index: 2; }
+    .hero-side-img { width: 50%; height: 100%; position: relative; }
+    .hero-img-cover { width: 100%; height: 100%; object-fit: cover; object-position: left center; } /* Anclado izquierda */
+    
+    .hero-tag { color: #ff7d41; font-weight: 800; text-transform: uppercase; letter-spacing: 2px; font-size: 0.8rem; margin-bottom: 1rem; }
+    .hero-title { font-size: 3.5rem; font-weight: 900; color: #111; line-height: 1.1; margin-bottom: 1.5rem; }
+    .hero-desc { font-size: 1.1rem; color: #666; line-height: 1.6; margin-bottom: 2.5rem; max-width: 500px; }
+    
+    .btn-hero-outline { align-self: flex-start; background-color: transparent; border: 2px solid #111; color: #111; font-weight: 700; padding: 12px 34px; border-radius: 4px; text-decoration: none; transition: all 0.3s; }
+    .btn-hero-outline:hover { background-color: #111; color: white; }
+
+    /* Extra Info */
+    .delivery-info { padding: 5rem 8%; background: #f4f4f4; display: flex; gap: 2rem; justify-content: center; flex-wrap: wrap; }
+    .del-box { 
+        background: white; padding: 2.5rem; width: 100%; max-width: 450px; 
+        border-left: 6px solid #ff7d41; border-radius: 0 8px 8px 0;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    }
+
+    .del-icon-large { font-size: 2.5rem; color: #111; margin-bottom: 1rem; }
+
+    @media (max-width: 900px) {
+        .hero-uniform { flex-direction: column-reverse; height: auto; }
+        .hero-side-img { width: 100%; height: 300px; }
+        .hero-side-text { width: 100%; padding: 3rem 5%; align-items: center; text-align: center; }
+        .hero-title { font-size: 2.5rem; }
+        .btn-hero-outline { align-self: center; }
+        .delivery-info { padding: 3rem 5%; }
+    }
+</style>
+
+<section class="hero-uniform">
+    <div class="hero-side-text">
+        <span class="hero-tag">Entrega</span>
+        <h1 class="hero-title">Envíos rápidos,<br>sin complicaciones.</h1>
+        <p class="hero-desc">
+            Envía paquetes, documentos o llaves a cualquier parte de la ciudad. Rápido, seguro y rastreable en tiempo real.
+        </p>
+        <a href="#" class="btn-hero-outline">Hacer un envío <i class="fa-solid fa-box-open" style="margin-left:8px"></i></a>
+    </div>
+
+    <div class="hero-side-img">
+        <img src="assets/img/hero/repartidor.webp" alt="DiDi Entrega" class="hero-img-cover">
+    </div>
+</section>
+
+<section class="delivery-info">
+    <div class="del-box">
+        <i class="fa-solid fa-truck-fast del-icon-large"></i>
+        <h3 style="font-weight: 800; font-size: 1.5rem; margin-bottom: 1rem;">DiDi Entrega XL</h3>
+        <p style="color: #666; line-height:1.5;">Ideal para cajas grandes, compras y objetos voluminosos. Autos espaciosos listos para tus necesidades de logística.</p>
+    </div>
+    <div class="del-box" style="border-color: #111;">
+        <i class="fa-solid fa-motorcycle del-icon-large"></i>
+        <h3 style="font-weight: 800; font-size: 1.5rem; margin-bottom: 1rem;">DiDi Moto</h3>
+        <p style="color: #666; line-height:1.5;">La opción más veloz y económica para documentos urgentes, llaves y paquetes pequeños. Evita el tráfico de la ciudad.</p>
+    </div>
+</section>

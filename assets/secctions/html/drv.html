@@ -1,0 +1,325 @@
+<style>
+    /* --- HERO --- */
+    .hero-uniform { display: flex; width: 100%; height: 600px; background: #fff; overflow: hidden; border-bottom: 1px solid #f0f0f0; }
+    .hero-side-text { width: 50%; display: flex; flex-direction: column; justify-content: center; padding: 0 5% 0 8%; background: #fff; z-index: 2; }
+    .hero-side-img { width: 50%; height: 100%; position: relative; }
+    .hero-img-cover { width: 100%; height: 100%; object-fit: cover; object-position: left center; }
+    
+    .hero-tag { color: #ff7d41; font-weight: 800; text-transform: uppercase; letter-spacing: 2px; font-size: 0.8rem; margin-bottom: 1rem; }
+    .hero-title { font-size: 3.5rem; font-weight: 900; color: #111; line-height: 1.1; margin-bottom: 1.5rem; }
+    .hero-desc { font-size: 1.1rem; color: #666; line-height: 1.6; margin-bottom: 2.5rem; max-width: 500px; }
+    .btn-hero-black { align-self: flex-start; background-color: #111; color: white; font-weight: 700; padding: 14px 36px; border-radius: 4px; text-decoration: none; transition: all 0.3s; }
+    .btn-hero-black:hover { background-color: #333; }
+
+    /* --- SECCIÓN SELECCIÓN --- */
+    .section-vehicles { padding: 4rem 8% 2rem 8%; background: #fbfbfb; text-align: center; }
+    .sec-title { font-size: 2rem; font-weight: 800; margin-bottom: 0.5rem; color: #111; }
+    .sec-subtitle { color: #666; margin-bottom: 3rem; font-size: 1.1rem; }
+    
+    /* Grid de Vehículos */
+    .vehicle-grid { 
+        display: flex; 
+        justify-content: center; 
+        gap: 1.5rem; 
+        flex-wrap: wrap; /* En desktop envuelve si es necesario */
+        margin-bottom: 3rem; 
+    }
+    
+    /* CARD VEHÍCULO */
+    .vehicle-card {
+        background-color: #eff2f5; 
+        border: 2px solid transparent;
+        border-radius: 12px;
+        width: 100%; max-width: 320px;
+        padding: 2rem 1rem;
+        cursor: pointer;
+        position: relative;
+        transition: all 0.2s ease-in-out;
+        display: flex; flex-direction: column; align-items: center;
+    }
+    .vehicle-card:hover { transform: translateY(-3px); }
+    .vehicle-card.selected { background-color: #ffffff; border-color: #ff7d41; box-shadow: 0 8px 20px rgba(255, 125, 65, 0.15); }
+    
+    .check-icon {
+        position: absolute; top: 12px; right: 12px;
+        width: 24px; height: 24px; border-radius: 50%; 
+        display: flex; align-items: center; justify-content: center;
+        font-size: 0.8rem; transition: all 0.3s;
+        background: #ced4da; color: white;
+    }
+    .vehicle-card.selected .check-icon { background: #ff7d41; }
+    
+    .veh-img { width: auto; max-width: 100%; height: 120px; object-fit: contain; margin-bottom: 1.5rem; filter: drop-shadow(0 5px 10px rgba(0,0,0,0.1)); }
+    .veh-title { font-size: 1.3rem; font-weight: 700; color: #6c757d; transition: color 0.3s; }
+    .vehicle-card.selected .veh-title { color: #ff7d41; }
+
+
+    /* --- AREA DE SERVICIOS (LISTA DINÁMICA) --- */
+    .services-display-area {
+        background: #ffffff;
+        border-radius: 16px;
+        padding: 2rem;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.03);
+        margin-top: 2rem;
+        min-height: 200px;
+        border: 1px solid #f0f0f0;
+    }
+
+    .dynamic-title { font-size: 1.1rem; font-weight: 700; color: #111; margin-bottom: 2rem; }
+
+    /* Grid por defecto (Desktop) */
+    .services-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+        gap: 1.5rem;
+        justify-items: center;
+    }
+
+    /* Item por defecto (Desktop: Caja Vertical) */
+    .service-item {
+        display: flex; 
+        flex-direction: column; 
+        align-items: center; 
+        text-align: center;
+        width: 100%; 
+        padding: 1.5rem 1rem;
+        border-radius: 12px; 
+        border: 1px solid #f0f0f0;
+        transition: transform 0.2s;
+        animation: fadeUp 0.4s ease forwards;
+    }
+    .service-item:hover { border-color: #ff7d41; transform: translateY(-3px); }
+
+    .serv-icon { font-size: 2rem; color: #111; margin-bottom: 1rem; }
+    .serv-name { font-weight: 600; font-size: 0.95rem; color: #444; }
+
+    @keyframes fadeUp {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+
+    /* --- LIFESTYLE & COMMUNITY (Estilos Desktop) --- */
+    .section-lifestyle, .section-community {
+        padding: 5rem 8%; 
+        display: flex; align-items: center; gap: 4rem; 
+        position: relative;
+    }
+    .section-lifestyle { background: #ffffff; border-bottom: 1px solid #f4f4f4; }
+    .section-community { background: #f8f9fa; flex-direction: row-reverse; }
+
+    .ls-content { flex: 1; z-index: 2; }
+    .ls-image-box { flex: 1; height: 450px; border-radius: 16px; overflow: hidden; box-shadow: 0 20px 40px rgba(0,0,0,0.05); position: relative; }
+    .ls-img { width: 100%; height: 100%; object-fit: cover; }
+    
+    .benefit-row { margin-top: 2rem; display: flex; flex-direction: column; gap: 1.5rem; }
+    .ben-item { display: flex; gap: 1rem; align-items: flex-start; }
+    .ben-icon-circle { min-width: 40px; height: 40px; background: #fff4e5; color: #ff7d41; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+    
+    .title-responsive { font-size: 2.2rem; font-weight: 800; margin-bottom: 1rem; color:#111; }
+    .text-responsive { color: #666; font-size: 1.1rem; }
+    .text-link { color: #111; font-weight: 700; text-decoration: underline; margin-top: 20px; display: inline-block; }
+
+    .comm-stats { display: flex; gap: 2rem; margin-top: 2rem; }
+    .stat-item h4 { font-size: 2rem; font-weight: 900; color: #ff7d41; margin: 0; }
+    .stat-item span { font-size: 0.9rem; color: #555; font-weight: 600; }
+    .mobile-header-block { display: none; }
+
+
+    /* --- MOBILE RESPONSIVE OPTIMIZADO --- */
+    @media (max-width: 900px) {
+        /* Hero */
+        .hero-uniform { flex-direction: column-reverse; height: auto; }
+        .hero-side-img { width: 100%; height: 300px; }
+        .hero-side-text { width: 100%; padding: 4rem 5%; align-items: center; text-align: center; }
+        .hero-title { font-size: 2.5rem; }
+        .btn-hero-black { align-self: center; }
+        
+        .section-vehicles { padding: 3rem 5%; }
+
+        /* --- 1. CARDS DE AUTOS EN FILA (NO COLUMNA) --- */
+        .vehicle-grid {
+            flex-wrap: nowrap; /* Forzar que estén en una línea */
+            gap: 10px; /* Reducir espacio entre ellas */
+            justify-content: space-between;
+        }
+        
+        .vehicle-card {
+            width: 48%; /* Casi la mitad para que quepan 2 */
+            min-width: 140px; /* Tamaño mínimo seguro */
+            margin-bottom: 0; /* Quitar margen inferior */
+            padding: 1rem 0.5rem; /* Padding más compacto */
+        }
+
+        .veh-img {
+            height: 80px; /* Imagen más pequeña para que quepa */
+            margin-bottom: 0.8rem;
+        }
+        .veh-title { font-size: 1.1rem; }
+
+
+        /* --- 2. SERVICIOS COMO LISTA CON ICONOS --- */
+        .services-display-area { padding: 1.5rem; text-align: left; }
+        
+        .services-grid {
+            display: flex;
+            flex-direction: column; /* Lista vertical */
+            gap: 0; /* El gap lo manejamos con padding/border */
+        }
+
+        .service-item {
+            flex-direction: row; /* Icono izquierda, Texto derecha */
+            align-items: center;
+            justify-content: flex-start;
+            text-align: left;
+            width: 100%;
+            padding: 1rem 0;
+            border: none; /* Quitamos borde de caja */
+            border-bottom: 1px solid #f0f0f0; /* Línea de separación */
+            border-radius: 0;
+            background: transparent;
+        }
+        
+        /* Efecto hover desactivado en móvil o sutil */
+        .service-item:hover { border-color: #f0f0f0; transform: none; background-color: #f9f9f9; padding-left: 10px; }
+
+        .serv-icon {
+            margin-bottom: 0; /* Quitar margen abajo */
+            margin-right: 1.2rem; /* Margen a la derecha */
+            font-size: 1.4rem;
+            color: #ff7d41; /* Icono naranja (bullet point) */
+            width: 30px; /* Ancho fijo para alineación perfecta */
+            text-align: center;
+        }
+
+        .serv-name {
+            font-size: 1.05rem;
+            font-weight: 600;
+        }
+
+
+        /* --- DISEÑO EDITORIAL (Lifestyle/Community) --- */
+        .section-lifestyle, .section-community {
+            display: flex; flex-direction: column; padding: 4rem 5%; gap: 2rem; text-align: left;
+        }
+        .ls-content .title-responsive, .ls-content .text-responsive.intro { display: none; }
+        .mobile-header-block { display: block; margin-bottom: 0.5rem; }
+        
+        .ls-image-box {
+            width: 100%; height: 300px; border-radius: 12px; box-shadow: none;
+            -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 15%, black 85%, transparent 100%);
+            mask-image: linear-gradient(to bottom, transparent 0%, black 15%, black 85%, transparent 100%);
+        }
+        .ls-img { object-fit: cover; width: 100%; height: 100%; }
+
+        .title-responsive { font-size: 2rem; }
+        .text-responsive { font-size: 1rem; }
+    }
+</style>
+
+<section class="hero-uniform">
+    <div class="hero-side-text">
+        <span class="hero-tag">DiDi Conductor</span>
+        <h1 class="hero-title">Maneja y<br>genera más.</h1>
+        <p class="hero-desc">
+            Conéctate con la app de movilidad número 1. Regístrate hoy y empieza a generar ganancias en 24 horas con total flexibilidad.
+        </p>
+        <a href="#" class="btn-hero-black">Iniciar Registro</a>
+    </div>
+    <div class="hero-side-img">
+        <img src="assets/img/hero/animation_driver.gif" alt="DiDi Conductor" class="hero-img-cover">
+    </div>
+</section>
+
+<section class="section-vehicles">
+    <h2 class="sec-title">Empieza tu viaje</h2>
+    <p class="sec-subtitle">Selecciona tu vehículo para ver las modalidades disponibles</p>
+    
+    <div class="vehicle-grid">
+        <div class="vehicle-card selected" id="card-4w" data-type="4w">
+            <div class="check-icon"><i class="fa-solid fa-check"></i></div>
+            <img src="assets/img/drive/auto-4-ruedas.webp" alt="Auto DiDi" class="veh-img">
+            <h3 class="veh-title">4 Ruedas</h3>
+        </div>
+        
+        <div class="vehicle-card" id="card-2w" data-type="2w">
+            <div class="check-icon"><i class="fa-solid fa-check"></i></div>
+            <img src="assets/img/drive/moto-2-ruedas.webp" alt="Moto DiDi" class="veh-img">
+            <h3 class="veh-title">2 Ruedas</h3>
+        </div>
+    </div>
+
+    <div class="services-display-area">
+        <h3 class="dynamic-title" id="service-title">Modalidades para Auto:</h3>
+        <div class="services-grid" id="services-container"></div>
+    </div>
+</section>
+
+<section class="section-lifestyle">
+    <div class="mobile-header-block">
+        <h2 class="title-responsive">Más que solo conducir</h2>
+        <p class="text-responsive">Diseñado para que tengas el control total de tu tiempo y tus ingresos.</p>
+    </div>
+
+    <div class="ls-image-box">
+        <img src="assets/img/drive/iStock-968782940-min.webp" alt="Conductor Feliz" class="ls-img">
+    </div>
+
+    <div class="ls-content">
+        <h2 class="title-responsive">Más que solo conducir</h2>
+        <p class="text-responsive intro">
+            Diseñado para que tengas el control total de tu tiempo y tus ingresos. Sin jefes, sin horarios forzosos.
+        </p>
+        
+        <div class="benefit-row">
+            <div class="ben-item">
+                <div class="ben-icon-circle"><i class="fa-solid fa-wallet"></i></div>
+                <div class="ben-text">
+                    <h3>Ganancias Semanales</h3>
+                    <p>Recibe tu dinero cada semana. Además, accede a préstamos exclusivos.</p>
+                </div>
+            </div>
+            <div class="ben-item">
+                <div class="ben-icon-circle"><i class="fa-solid fa-percent"></i></div>
+                <div class="ben-text">
+                    <h3>Tasa de Servicio Baja</h3>
+                    <p>Quédate con un mayor porcentaje de cada viaje.</p>
+                </div>
+            </div>
+            <div class="ben-item">
+                <div class="ben-icon-circle"><i class="fa-solid fa-shield-cat"></i></div>
+                <div class="ben-text">
+                    <h3>Seguridad Avanzada</h3>
+                    <p>Verificación facial y monitoreo de viaje 24/7.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section-community">
+    <div class="mobile-header-block">
+        <span style="color: #ff7d41; font-weight: 700; text-transform: uppercase; font-size: 0.8rem;">Comunidad DiDi</span>
+        <h2 class="title-responsive" style="margin-top:0.5rem">Únete a la flota más grande</h2>
+        <p class="text-responsive">Ser conductor DiDi significa tener respaldo total.</p>
+    </div>
+
+    <div class="ls-image-box">
+        <img src="assets/img/drive/conductor-didi.webp" alt="Comunidad DiDi" class="ls-img">
+    </div>
+
+    <div class="ls-content comm-text-box">
+        <span style="color: #ff7d41; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; font-size: 0.9rem;" class="title-responsive">Comunidad DiDi</span>
+        <h2 class="title-responsive">Únete a la flota más grande</h2>
+        <p class="text-responsive intro">
+            Ser conductor DiDi significa tener respaldo. Desde descuentos en gasolina hasta seguros de cobertura amplia.
+        </p>
+
+        <div class="comm-stats">
+            <div class="stat-item"><h4>+50%</h4><span>Más demanda</span></div>
+            <div class="stat-item"><h4>24/7</h4><span>Soporte</span></div>
+        </div>
+        <br>
+        <a href="#" class="text-link">Ver requisitos completos →</a>
+    </div>
+</section>

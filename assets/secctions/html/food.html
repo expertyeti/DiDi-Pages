@@ -1,0 +1,71 @@
+<style>
+    .hero-uniform { display: flex; width: 100%; height: 600px; background: #fff; overflow: hidden; }
+    .hero-side-text { width: 50%; display: flex; flex-direction: column; justify-content: center; padding: 0 5% 0 8%; background: #fff; z-index: 2; }
+    .hero-side-img { width: 50%; height: 100%; position: relative; }
+    .hero-img-cover { width: 100%; height: 100%; object-fit: cover; object-position: left center; } /* Anclado izquierda */
+    
+    .hero-tag { color: #ff7d41; font-weight: 800; text-transform: uppercase; letter-spacing: 2px; font-size: 0.8rem; margin-bottom: 1rem; }
+    .hero-title { font-size: 3.5rem; font-weight: 900; color: #111; line-height: 1.1; margin-bottom: 1.5rem; }
+    .hero-desc { font-size: 1.1rem; color: #666; line-height: 1.6; margin-bottom: 2.5rem; max-width: 500px; }
+    
+    .btn-hero { align-self: flex-start; background-color: #ff7d41; color: white; font-weight: 700; padding: 14px 36px; border-radius: 4px; text-decoration: none; transition: all 0.3s; }
+    .btn-hero:hover { background-color: #ff6018; }
+
+    /* Steps Content */
+    .food-steps { padding: 5rem 8%; background: #fff; text-align: center; }
+    .steps-container { display: flex; justify-content: center; gap: 4rem; margin-top: 3rem; flex-wrap: wrap; }
+    .step-item { max-width: 280px; text-align: center; }
+    
+    .step-icon-circle { 
+        width: 80px; height: 80px; background: #fff4e5; color: #ff7d41; 
+        border-radius: 50%; display: flex; align-items: center; justify-content: center; 
+        font-size: 2rem; margin: 0 auto 1.5rem auto; transition: transform 0.3s;
+    }
+    .step-item:hover .step-icon-circle { transform: scale(1.1); background: #ff7d41; color: white; }
+
+    .step-title { font-weight: 800; font-size: 1.2rem; margin-bottom: 0.5rem; }
+
+    @media (max-width: 900px) {
+        .hero-uniform { flex-direction: column-reverse; height: auto; }
+        .hero-side-img { width: 100%; height: 300px; }
+        .hero-side-text { width: 100%; padding: 3rem 5%; align-items: center; text-align: center; }
+        .hero-title { font-size: 2.5rem; }
+        .btn-hero { align-self: center; }
+    }
+</style>
+
+<section class="hero-uniform">
+    <div class="hero-side-text">
+        <span class="hero-tag">Food</span>
+        <h1 class="hero-title">Tu comida favorita,<br>en tu puerta.</h1>
+        <p class="hero-desc">
+            Explora miles de restaurantes. Desde antojitos locales hasta grandes cadenas, con entrega rápida y caliente.
+        </p>
+        <a href="#" class="btn-hero">Pedir Comida <i class="fa-solid fa-utensils" style="margin-left:8px"></i></a>
+    </div>
+
+    <div class="hero-side-img">
+        <img src="assets/img/hero/food-hero.webp" alt="DiDi Food" class="hero-img-cover">
+    </div>
+</section>
+
+<section class="food-steps">
+    <h2 style="font-size: 2rem; font-weight: 800;">Del restaurante a tu mesa</h2>
+    <div class="steps-container">
+        <div class="step-item">
+            <div class="step-icon-circle"><i class="fa-solid fa-mobile-screen"></i></div>
+            <h3 class="step-title">1. Elige</h3>
+            <p style="color:#666; font-size:0.95rem;">Navega por el menú de tus restaurantes favoritos y personaliza tu orden.</p>
+        </div>
+        <div class="step-item">
+            <div class="step-icon-circle"><i class="fa-solid fa-credit-card"></i></div>
+            <h3 class="step-title">2. Paga</h3>
+            <p style="color:#666; font-size:0.95rem;">Proceso de pago seguro y seguimiento en tiempo real de tu repartidor.</p>
+        </div>
+        <div class="step-item">
+            <div class="step-icon-circle"><i class="fa-solid fa-face-smile-wink"></i></div>
+            <h3 class="step-title">3. Disfruta</h3>
+            <p style="color:#666; font-size:0.95rem;">Recibe tu comida en la temperatura perfecta y disfruta.</p>
+        </div>
+    </div>
+</section>

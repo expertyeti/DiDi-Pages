@@ -1,0 +1,58 @@
+<style>
+    .hero-uniform { display: flex; width: 100%; height: 600px; background: #fff; overflow: hidden; }
+    .hero-side-text { width: 50%; display: flex; flex-direction: column; justify-content: center; padding: 0 5% 0 8%; background: #fff; z-index: 2; }
+    .hero-side-img { width: 50%; height: 100%; position: relative; }
+    .hero-img-cover { width: 100%; height: 100%; object-fit: cover; object-position: left center; } /* Anclado izquierda */
+    
+    .hero-tag { color: #ff7d41; font-weight: 800; text-transform: uppercase; letter-spacing: 2px; font-size: 0.8rem; margin-bottom: 1rem; }
+    .hero-title { font-size: 3.5rem; font-weight: 900; color: #111; line-height: 1.1; margin-bottom: 1.5rem; }
+    .hero-desc { font-size: 1.1rem; color: #666; line-height: 1.6; margin-bottom: 2.5rem; max-width: 500px; }
+    
+    .btn-hero { align-self: flex-start; background-color: #ff7d41; color: white; font-weight: 700; padding: 14px 36px; border-radius: 4px; text-decoration: none; transition: all 0.3s; }
+    .btn-hero:hover { background-color: #ff6018; }
+
+    /* Banner Finanzas */
+    .fin-banner { 
+        background: #111; color: white; padding: 5rem 8%; 
+        display: flex; align-items: center; justify-content: space-between; 
+        gap: 3rem;
+    }
+    .fin-text { max-width: 600px; }
+    .fin-icon-big { font-size: 5rem; color: #333; }
+
+    @media (max-width: 900px) {
+        .hero-uniform { flex-direction: column-reverse; height: auto; }
+        .hero-side-img { width: 100%; height: 300px; }
+        .hero-side-text { width: 100%; padding: 3rem 5%; align-items: center; text-align: center; }
+        .hero-title { font-size: 2.5rem; }
+        .btn-hero { align-self: center; }
+        .fin-banner { flex-direction: column; text-align: center; padding: 3rem 5%; }
+    }
+</style>
+
+<section class="hero-uniform">
+    <div class="hero-side-text">
+        <span class="hero-tag">Finanzas</span>
+        <h1 class="hero-title">Tu dinero,<br>más inteligente.</h1>
+        <p class="hero-desc">
+            Créditos personales y tarjeta DiDi Card sin anualidad. Toma el control de tus finanzas directamente desde la app.
+        </p>
+        <a href="#" class="btn-hero">Solicitar Tarjeta <i class="fa-solid fa-credit-card" style="margin-left:8px"></i></a>
+    </div>
+
+    <div class="hero-side-img">
+        <img src="assets/img/hero/finanzas.webp" alt="DiDi Finanzas" class="hero-img-cover">
+    </div>
+</section>
+
+<section class="fin-banner">
+    <div class="fin-text">
+        <h2 style="font-size: 2.5rem; font-weight: 800; margin-bottom: 1.5rem; color: white;">DiDi Card</h2>
+        <p style="font-size: 1.2rem; color: #ccc; line-height: 1.6;">
+            La tarjeta de crédito diseñada para tu vida diaria. Obtén <strong>3% de cashback</strong> en DiDi Food y viajes, y 1% en todas tus otras compras. Sin costo de anualidad, nunca.
+        </p>
+    </div>
+    <div>
+        <i class="fa-brands fa-cc-visa" style="font-size: 6rem; color: white;"></i>
+    </div>
+</section>

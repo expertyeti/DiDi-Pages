@@ -1,0 +1,291 @@
+/* =========================================
+   1. ESTILOS BASE Y HERO
+   ========================================= */
+   .hero-uniform { display: flex; width: 100%; height: 600px; background: #fff; overflow: hidden; border-bottom: 1px solid #f0f0f0; }
+   .hero-side-text { width: 50%; display: flex; flex-direction: column; justify-content: center; padding: 0 5% 0 8%; background: #fff; z-index: 2; }
+   .hero-side-img { width: 50%; height: 100%; position: relative; }
+   .hero-img-cover { width: 100%; height: 100%; object-fit: cover; object-position: left center; }
+   
+   .hero-tag { color: #ff7d41; font-weight: 800; text-transform: uppercase; letter-spacing: 2px; font-size: 0.8rem; margin-bottom: 1rem; }
+   .hero-title { font-size: 3.5rem; font-weight: 900; color: #111; line-height: 1.1; margin-bottom: 1.5rem; }
+   .hero-desc { font-size: 1.1rem; color: #666; line-height: 1.6; margin-bottom: 2.5rem; max-width: 500px; }
+   
+   .btn-hero { align-self: flex-start; background-color: #ff7d41; color: white; font-weight: 700; padding: 14px 36px; border-radius: 4px; text-decoration: none; transition: background 0.3s ease; }
+   .btn-hero:hover { background-color: #ff6018; }
+
+   /* =========================================
+      2. ANIMACIONES SCROLL REVEAL
+      ========================================= */
+   .reveal-element { opacity: 0; transform: translateY(40px); transition: all 0.8s cubic-bezier(0.25, 1, 0.5, 1); }
+   .reveal-element.visible { opacity: 1; transform: translateY(0); }
+   .delay-100 { transition-delay: 0.1s; }
+   .delay-200 { transition-delay: 0.2s; }
+   .delay-300 { transition-delay: 0.3s; }
+
+   /* =========================================
+      3. SLIDER PREMIUM (TARJETA UNIFICADA)
+      ========================================= */
+   .section-slider { 
+       padding: 4rem 5%; /* Padding reducido para ganar espacio */
+       background: #fbfbfb; 
+       overflow: hidden; 
+       position: relative; 
+   }
+   
+   .slider-header { text-align: center; margin-bottom: 2rem; }
+   .sec-title { font-size: 2.5rem; font-weight: 900; margin-bottom: 1rem; color: #111; }
+   .sec-subtitle { color: #666; font-size: 1.1rem; max-width: 600px; margin: 0 auto; }
+
+   /* Wrapper del Slider */
+   .premium-slider-wrapper {
+       position: relative;
+       max-width: 900px; /* Ancho máximo reducido */
+       margin: 0 auto;
+       display: flex;
+       align-items: center;
+       justify-content: center;
+       min-height: 400px; /* Altura mínima reducida */
+   }
+
+   /* Estructura del Slide */
+   .p-slide {
+       display: flex; 
+       justify-content: center;
+       align-items: center;
+       width: 100%;
+       position: absolute; 
+       top: 0; left: 0;
+       opacity: 0; 
+       transform: translateX(50px);
+       visibility: hidden; 
+       transition: 
+           opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1), 
+           transform 0.6s cubic-bezier(0.4, 0, 0.2, 1),
+           visibility 0.6s step-end;
+   }
+
+   .p-slide.active {
+       position: relative; 
+       z-index: 2;
+       opacity: 1;
+       transform: translateX(0);
+       visibility: visible;
+       transition: 
+           opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1), 
+           transform 0.6s cubic-bezier(0.4, 0, 0.2, 1),
+           visibility 0s step-start;
+   }
+
+   /* TARJETA UNIFICADA COMPACTA */
+   .unified-card {
+       display: flex;
+       width: 100%;
+       background: white;
+       border-radius: 20px;
+       box-shadow: 0 15px 40px rgba(0,0,0,0.06);
+       overflow: hidden;
+       max-width: 850px; /* Limitar ancho tarjeta */
+   }
+
+   .card-left {
+       flex: 0.8; /* Imagen ocupa menos espacio */
+       padding: 2rem;
+       display: flex;
+       align-items: center;
+       justify-content: center;
+       background: #fff;
+   }
+
+   .card-right {
+       flex: 1.2;
+       padding: 2rem 2.5rem 2rem 0; /* Padding reducido */
+       display: flex;
+       flex-direction: column;
+       justify-content: center;
+       align-items: flex-start;
+       text-align: left;
+   }
+
+   .slide-img-asset {
+       width: 100%;
+       max-width: 240px; /* Imagen más pequeña */
+       height: auto;
+       object-fit: contain;
+       filter: drop-shadow(0 10px 20px rgba(0,0,0,0.15));
+   }
+
+   .slide-heading { font-size: 1.8rem; font-weight: 800; color: #111; margin-bottom: 0.8rem; line-height: 1.1; }
+   .slide-desc { font-size: 1rem; color: #555; line-height: 1.5; margin-bottom: 1.5rem; }
+   .slide-link { color: #ff7d41; font-weight: 700; text-decoration: none; font-size: 1rem; border-bottom: 2px solid transparent; transition: border 0.3s; }
+   .slide-link:hover { border-bottom-color: #ff7d41; }
+
+   /* Botones Navegación */
+   .slider-nav-btn {
+       background: #ff7d41; color: white; border: none; width: 48px; height: 48px;
+       border-radius: 50%; font-size: 1.1rem; cursor: pointer; transition: all 0.3s;
+       display: flex; align-items: center; justify-content: center;
+       box-shadow: 0 6px 20px rgba(255, 125, 65, 0.4); z-index: 10;
+       position: absolute; top: 50%; transform: translateY(-50%);
+   }
+   .slider-nav-btn:hover { background: #ff6018; transform: translateY(-50%) scale(1.1); }
+   .prev-btn { left: -20px; }
+   .next-btn { right: -20px; }
+
+   /* Indicadores */
+   .slider-dots { display: flex; justify-content: center; gap: 10px; margin-top: 2rem; }
+   .dot { width: 10px; height: 10px; background: #e0e0e0; border-radius: 50%; cursor: pointer; transition: all 0.3s; }
+   .dot.active { background: #ff7d41; width: 30px; border-radius: 12px; }
+
+   /* =========================================
+      4. DIDI TRAVEL (NUEVA SECCIÓN)
+      ========================================= */
+   .section-travel { padding: 6rem 8%; background: #fff; }
+   .travel-intro { text-align: center; margin-bottom: 4rem; }
+   
+   .travel-grid {
+       display: grid;
+       grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+       gap: 2rem;
+       margin-bottom: 5rem;
+   }
+
+   .travel-card {
+       background: #fff;
+       border-radius: 12px;
+       overflow: hidden;
+       box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+       transition: transform 0.3s;
+       height: 100%; display: flex; flex-direction: column;
+   }
+   .travel-card:hover { transform: translateY(-5px); }
+
+   .travel-img-box { height: 180px; width: 100%; overflow: hidden; }
+   .travel-img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s; }
+   .travel-card:hover .travel-img { transform: scale(1.1); }
+
+   .travel-info { padding: 1.5rem; flex-grow: 1; display: flex; flex-direction: column; }
+   .travel-title { font-size: 1.3rem; font-weight: 800; color: #111; margin-bottom: 0.5rem; }
+   .travel-desc { font-size: 0.95rem; color: #666; line-height: 1.5; }
+
+   /* Travel Features (Bottom) */
+   .travel-features-container {
+       display: flex; align-items: center; gap: 4rem;
+       background: #f9f9fa; border-radius: 24px; padding: 3rem;
+   }
+   .travel-feat-img { width: 40%; max-width: 400px; border-radius: 16px; object-fit: cover; }
+   .travel-feat-list { flex: 1; display: flex; flex-direction: column; gap: 2rem; }
+   
+   .tf-item { display: flex; align-items: center; gap: 1.5rem; }
+   .tf-icon { width: 40px; height: 40px; object-fit: contain; }
+   .tf-text { font-size: 1.1rem; font-weight: 600; color: #333; }
+
+   /* =========================================
+      5. DIDI CLUB (MODIFICADO)
+      ========================================= */
+   .section-didi-club {
+       background: linear-gradient(135deg, #FFF8F5 0%, #ffffff 100%);
+       padding: 5rem 8%;
+       text-align: center;
+       border-top: 1px solid #eee;
+   }
+
+   .club-header { margin-bottom: 3rem; }
+   .club-price { font-size: 1.5rem; font-weight: 700; color: #ff7d41; margin-top: 1rem; display: block; }
+
+   .club-grid {
+       display: grid;
+       grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+       gap: 1.5rem; /* Gap reducido */
+       max-width: 1200px;
+       margin: 0 auto 3rem auto;
+   }
+
+   .club-item {
+       background: white;
+       padding: 1.5rem; /* Padding reducido */
+       border-radius: 12px;
+       box-shadow: 0 8px 25px rgba(0,0,0,0.04);
+       display: flex;
+       flex-direction: column;
+       align-items: center;
+       transition: transform 0.3s;
+       border: 1px solid transparent;
+   }
+   .club-item:hover { transform: translateY(-3px); border-color: #ffe0d0; }
+
+   /* Imágenes del club más pequeñas */
+   .club-icon {
+       width: 40px; height: 40px; /* Reducido de 64px */
+       margin-bottom: 1rem;
+       object-fit: contain;
+   }
+
+   .club-desc { font-size: 0.9rem; color: #444; font-weight: 600; line-height: 1.4; }
+   .club-cta-text { font-size: 1.3rem; font-weight: 800; color: #111; margin-bottom: 1.5rem; }
+
+   /* =========================================
+      6. FEATURES & LINKS
+      ========================================= */
+   .section-feature { padding: 7rem 8%; display: flex; align-items: center; gap: 6rem; position: relative; background: #fff; border-bottom: 1px solid #f4f4f4; }
+   .section-feature.reverse { flex-direction: row-reverse; background: #f9f9fa; }
+   .feat-content { flex: 1; z-index: 2; }
+   .feat-image-box { flex: 1; height: 550px; border-radius: 24px; overflow: hidden; box-shadow: 0 30px 60px rgba(0,0,0,0.1); position: relative; }
+   .feat-img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.8s; }
+   .feat-image-box:hover .feat-img { transform: scale(1.05); }
+   .feat-heading { font-size: 3rem; font-weight: 900; margin-bottom: 1.5rem; line-height: 1.1; color: #111; }
+   .feat-text { font-size: 1.2rem; color: #555; line-height: 1.7; margin-bottom: 1.5rem; }
+   .feat-intro { font-weight: 500; color: #333; }
+
+   .why-list { list-style: none; margin-top: 3rem; }
+   .why-item { display: flex; align-items: flex-start; gap: 1.2rem; margin-bottom: 2.5rem; }
+   .why-icon { color: #ff7d41; font-size: 1.4rem; margin-top: 2px; background: #fff4e5; padding: 14px; border-radius: 50%; min-width: 50px; text-align: center; }
+   .why-item h4 { font-weight: 800; font-size: 1.2rem; margin-bottom: 0.5rem; color: #111; }
+   .why-item p { font-size: 1.05rem; color: #666; line-height: 1.5; }
+
+   .info-links { padding: 5rem 8%; background: #fff; display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 4rem; border-top: 1px solid #eee; }
+   .link-col h3 { font-size: 1.4rem; font-weight: 800; margin-bottom: 1.2rem; color: #111; }
+   .link-col p { font-size: 1.05rem; color: #666; line-height: 1.7; }
+
+   .mobile-header-block { display: none; margin-bottom: 1.5rem; }
+   .title-responsive { font-size: 2.2rem; font-weight: 900; color: #111; margin-bottom: 0.5rem; }
+   .text-responsive { font-size: 1.1rem; color: #666; }
+
+   /* =========================================
+      7. RESPONSIVE
+      ========================================= */
+   @media (max-width: 900px) {
+       .hero-uniform { flex-direction: column-reverse; height: auto; }
+       .hero-side-img { width: 100%; height: 350px; }
+       .hero-side-text { width: 100%; padding: 4rem 5%; align-items: center; text-align: center; }
+       .hero-title { font-size: 2.8rem; }
+       .btn-hero { align-self: center; }
+       
+       /* Flechas VISIBLES en móvil, ajustadas */
+       .slider-nav-btn { display: flex; width: 40px; height: 40px; font-size: 0.9rem; }
+       .prev-btn { left: 0; }
+       .next-btn { right: 0; }
+       
+       .section-slider { padding: 3rem 1rem; }
+       .premium-slider-wrapper { min-height: auto; display: block; max-width: 100%; }
+       
+       /* Tarjeta en móvil */
+       .unified-card { flex-direction: column; margin: 0 10px; width: auto; }
+       .card-left { padding: 1.5rem; flex: unset; }
+       .card-right { padding: 0 1.5rem 2rem 1.5rem; align-items: center; text-align: center; flex: unset; }
+       .slide-heading { font-size: 1.5rem; }
+       .slide-img-asset { max-width: 180px; }
+
+       /* Travel Responsive */
+       .travel-features-container { flex-direction: column-reverse; padding: 2rem; gap: 2rem; }
+       .travel-feat-img { width: 100%; max-width: 100%; }
+       .travel-grid { grid-template-columns: 1fr; }
+
+       .section-feature, .section-feature.reverse { flex-direction: column; padding: 4rem 5%; gap: 2rem; text-align: left; }
+       .feat-content .feat-heading, .feat-content .feat-intro { display: none; }
+       .mobile-header-block { display: block; }
+       .feat-image-box { width: 100%; height: 300px; box-shadow: none; border-radius: 16px; -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 15%, black 85%, transparent 100%); mask-image: linear-gradient(to bottom, transparent 0%, black 15%, black 85%, transparent 100%); }
+       .feat-heading { font-size: 2rem; }
+       
+       .section-didi-club { padding: 4rem 5%; }
+       .club-grid { gap: 1rem; }
+   }

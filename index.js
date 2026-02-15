@@ -6,8 +6,18 @@ document.addEventListener('DOMContentLoaded', () => {
     const scrollContainer = document.querySelector('.chips-wrapper');
     const btnLeft = document.querySelector('.nav-arrow.left');
     const btnRight = document.querySelector('.nav-arrow.right');
+    const navbar = document.querySelector('.navbar'); // Referencia al nav
+    
+    // --- 2. CONTROL DEL SCROLL EN NAVBAR ---
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 50) {
+            navbar.classList.add('scrolled');
+        } else {
+            navbar.classList.remove('scrolled');
+        }
+    });
 
-    // --- 2. FUNCIÓN DE CARGA DINÁMICA ---
+    // --- 3. FUNCIÓN DE CARGA DINÁMICA ---
     async function loadContent(filename) {
         try {
             contentContainer.style.opacity = '0.5';
@@ -20,9 +30,14 @@ document.addEventListener('DOMContentLoaded', () => {
             void contentContainer.offsetWidth; // Force Reflow
             contentContainer.classList.add('fade-in');
 
-            // Inicializar lógicas
+            // Inicializar lógicas específicas
             if (filename.includes('pax.html')) {
-                initPaxPage(); 
+                // Verificamos si la función modular existe
+                if (typeof window.initPaxPage === 'function') {
+                    window.initPaxPage();
+                } else {
+                    console.warn('initPaxPage no está cargado. Asegúrate de incluir src/pax.js');
+                }
             }
             else if (filename.includes('drv.html')) {
                 initDriverPage(); 
@@ -32,70 +47,6 @@ document.addEventListener('DOMContentLoaded', () => {
             console.error('Error cargando contenido:', error);
         } finally {
             contentContainer.style.opacity = '1';
-        }
-    }
-
-    // --- 3. LÓGICA DE PAX.HTML (Slider & Scroll Reveal) ---
-    function initPaxPage() {
-        
-        // A. Scroll Reveal
-        const observer = new IntersectionObserver((entries, obs) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                    obs.unobserve(entry.target);
-                }
-            });
-        }, { threshold: 0.1 });
-
-        const revealElements = document.querySelectorAll('.reveal-element');
-        revealElements.forEach(el => observer.observe(el));
-
-        // B. Slider Premium
-        const slides = document.querySelectorAll('.p-slide');
-        const dots = document.querySelectorAll('.dot');
-        const prevBtn = document.getElementById('slider-prev');
-        const nextBtn = document.getElementById('slider-next');
-        const dotsContainer = document.getElementById('slider-dots-container');
-        
-        if (slides.length === 0) return;
-
-        let currentSlide = 0;
-        const totalSlides = slides.length;
-
-        function updateSlider() {
-            // Quitamos 'active' de todos
-            slides.forEach(s => s.classList.remove('active'));
-            dots.forEach(d => d.classList.remove('active'));
-            
-            // Ponemos 'active' al actual
-            if (slides[currentSlide]) slides[currentSlide].classList.add('active');
-            if (dots[currentSlide]) dots[currentSlide].classList.add('active');
-        }
-
-        if (prevBtn) {
-            prevBtn.addEventListener('click', () => {
-                currentSlide--;
-                if (currentSlide < 0) currentSlide = totalSlides - 1;
-                updateSlider();
-            });
-        }
-
-        if (nextBtn) {
-            nextBtn.addEventListener('click', () => {
-                currentSlide++;
-                if (currentSlide >= totalSlides) currentSlide = 0;
-                updateSlider();
-            });
-        }
-
-        if (dotsContainer) {
-            dots.forEach((dot, index) => {
-                dot.addEventListener('click', () => {
-                    currentSlide = index;
-                    updateSlider();
-                });
-            });
         }
     }
 

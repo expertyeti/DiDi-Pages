@@ -1,0 +1,244 @@
+:root {
+    --di-orange: #ff7d41;
+    --di-orange-hover: #ff6018;
+    --di-black: #111111;
+    --di-dark-gray: #333333;
+    --di-light-gray: #f2f2f2;
+    --di-white: #ffffff;
+    
+    --bg-body: var(--di-white);
+    --text-main: var(--di-black);
+    --text-muted: var(--di-dark-gray);
+    --radius-chip: 50px;
+    --font: 'Inter', system-ui, sans-serif;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    font-family: var(--font);
+    background-color: var(--bg-body);
+    color: var(--text-main);
+    overflow-x: hidden;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* Navbar */
+.navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 5%;
+    background: rgba(255, 255, 255, 1); /* Fondo solido inicial */
+    position: fixed;
+    top: 0; width: 100%; z-index: 1000;
+    border-bottom: 1px solid #eee;
+    transition: all 0.4s ease; /* Transición suave para el efecto */
+}
+
+/* Estado al hacer Scroll */
+.navbar.scrolled {
+    background: rgba(255, 255, 255, 0); /* Transparencia */
+    backdrop-filter: blur(12px); /* Efecto Blur */
+    -webkit-backdrop-filter: blur(12px); /* Soporte Safari */
+    padding: 0.6rem 5%; /* Reducción de altura */
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
+}
+
+.logo-img { height: 24px; width: auto; transition: transform 0.3s; }
+.navbar.scrolled .logo-img { transform: scale(0.9); } /* Opcional: logo un poco más pequeño */
+
+.btn-login {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--di-white);
+    text-decoration: none;
+    padding: 10px 24px;
+    border-radius: 4px;
+    background: var(--di-orange);
+    transition: background 0.3s;
+}
+.btn-login:hover { background: var(--di-orange-hover); }
+
+/* Contenedor Principal */
+.main-container {
+    margin-top: 80px;
+    width: 100%;
+    flex-grow: 1; 
+    display: flex;
+    flex-direction: column;
+}
+
+/* --- CHIPS CONTAINER & SCROLL LOGIC --- */
+.chips-container-center {
+    width: 100%;
+    padding: 1.5rem 0;
+    background: var(--di-white);
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Flechas de Navegación */
+.nav-arrow {
+    display: none;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: white;
+    border: 1px solid #eee;
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0);
+    z-index: 10;
+    cursor: pointer;
+    color: var(--di-orange);
+    align-items: center; justify-content: center;
+    transition: opacity 0.3s;
+}
+.nav-arrow.left { left: 10px; }
+.nav-arrow.right { right: 10px; }
+
+.chips-wrapper {
+    display: flex;
+    gap: 12px;
+    padding: 0 20px;
+    flex-wrap: wrap; 
+    justify-content: center;
+    scroll-behavior: smooth;
+}
+
+input[type="radio"] { display: none; }
+
+.chip {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 24px;
+    background: var(--di-light-gray);
+    border: 1px solid transparent;
+    border-radius: var(--radius-chip);
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    user-select: none;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+.chip:hover { background: #e0e0e0; }
+.chip-icon { width: 20px; height: 20px; object-fit: contain; opacity: 0.6; }
+.chip-text { font-size: 0.95rem; font-weight: 600; color: var(--text-muted); }
+
+/* Lógica de Activación */
+#tab-pax:checked ~ .chips-container-center label[for="tab-pax"],
+#tab-food:checked ~ .chips-container-center label[for="tab-food"],
+#tab-del:checked ~ .chips-container-center label[for="tab-del"],
+#tab-fin:checked ~ .chips-container-center label[for="tab-fin"],
+#tab-drv:checked ~ .chips-container-center label[for="tab-drv"] {
+    background: var(--di-orange);
+    box-shadow: 0 4px 15px rgba(255, 125, 65, 0.3);
+    transform: scale(1.05);
+}
+
+#tab-pax:checked ~ .chips-container-center label[for="tab-pax"] *,
+#tab-food:checked ~ .chips-container-center label[for="tab-food"] *,
+#tab-del:checked ~ .chips-container-center label[for="tab-del"] *,
+#tab-fin:checked ~ .chips-container-center label[for="tab-fin"] *,
+#tab-drv:checked ~ .chips-container-center label[for="tab-drv"] * {
+    color: white;
+    opacity: 1;
+    filter: brightness(0) invert(1);
+}
+
+/* Contenido Dinámico */
+#dynamic-content {
+    width: 100%;
+    flex-grow: 1;
+    position: relative;
+}
+
+.fade-in { animation: fadeIn 0.5s cubic-bezier(0.25, 0.8, 0.25, 1) forwards; }
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* --- FOOTER STYLES --- */
+.main-footer {
+    background-color: var(--di-orange-hover);
+    border-top: 1px solid #eee;
+    padding: 4rem 5%;
+    margin-top: auto;
+    font-size: 0.9rem;
+    color: var(--di-white);
+}
+
+.footer-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.footer-logo-box {
+    margin-bottom: 2.5rem;
+}
+
+.footer-logo {
+    height: 32px;
+    width: auto;
+    opacity: 0.9;
+}
+
+.footer-nav {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 2rem;
+    margin-bottom: 3rem;
+    list-style: none;
+}
+
+.footer-link {
+    color: var(--di-white);
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.2s;
+}
+
+.footer-link:hover {
+    color: var(--di-orange);
+}
+
+.footer-countries {
+    color: var(--di-white);
+    font-size: 0.85rem;
+    line-height: 1.8;
+    border-top: 1px solid #f0f0f0;
+    padding-top: 2rem;
+}
+
+/* --- MOBILE STYLES --- */
+@media (max-width: 900px) {
+    .chips-container-center {
+        justify-content: flex-start;
+        padding: 1rem 0;
+    }
+    .chips-wrapper {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        justify-content: flex-start;
+        width: 100%;
+        padding: 0 50px;
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+    }
+    .chips-wrapper::-webkit-scrollbar { display: none; }
+    .nav-arrow { display: flex; }
+    
+    /* Footer Mobile adjustments */
+    .footer-nav { gap: 1rem; flex-direction: column; }
+}

@@ -1,219 +1,4 @@
-<style>
-    /* =========================================
-       1. ESTILOS BASE Y HERO
-       ========================================= */
-    .hero-uniform { display: flex; width: 100%; height: 600px; background: #fff; overflow: hidden; border-bottom: 1px solid #f0f0f0; }
-    .hero-side-text { width: 50%; display: flex; flex-direction: column; justify-content: center; padding: 0 5% 0 8%; background: #fff; z-index: 2; }
-    .hero-side-img { width: 50%; height: 100%; position: relative; }
-    .hero-img-cover { width: 100%; height: 100%; object-fit: cover; object-position: left center; }
-    
-    .hero-tag { color: #ff7d41; font-weight: 800; text-transform: uppercase; letter-spacing: 2px; font-size: 0.8rem; margin-bottom: 1rem; }
-    .hero-title { font-size: 3.5rem; font-weight: 900; color: #111; line-height: 1.1; margin-bottom: 1.5rem; }
-    .hero-desc { font-size: 1.1rem; color: #666; line-height: 1.6; margin-bottom: 2.5rem; max-width: 500px; }
-    
-    .btn-hero { align-self: flex-start; background-color: #ff7d41; color: white; font-weight: 700; padding: 14px 36px; border-radius: 4px; text-decoration: none; transition: background 0.3s ease; }
-    .btn-hero:hover { background-color: #ff6018; }
-
-    /* =========================================
-       2. ANIMACIONES SCROLL REVEAL
-       ========================================= */
-    .reveal-element { opacity: 0; transform: translateY(40px); transition: all 0.8s cubic-bezier(0.25, 1, 0.5, 1); }
-    .reveal-element.visible { opacity: 1; transform: translateY(0); }
-    .delay-100 { transition-delay: 0.1s; }
-    .delay-200 { transition-delay: 0.2s; }
-    .delay-300 { transition-delay: 0.3s; }
-
-    /* =========================================
-       3. SECCIÓN BANNERS
-       ========================================= */
-    .section-banners { padding: 4rem 8%; background: #fff; }
-    .banners-container { display: flex; gap: 2rem; justify-content: center; }
-    .banner-img { 
-        width: 100%; max-width: 580px; height: auto; 
-        border-radius: 16px; cursor: pointer;
-        box-shadow: 0 10px 30px rgba(0,0,0,0.08);
-        transition: transform 0.4s ease;
-    }
-    .banner-img:hover { transform: translateY(-10px); }
-
-    /* =========================================
-       4. SLIDER PREMIUM (SERVICIOS) - LA JOYA 💎
-       ========================================= */
-    .section-slider { 
-        padding: 6rem 8%; 
-        background: #fbfbfb; 
-        overflow: hidden; 
-        position: relative; 
-    }
-    
-    .slider-header { text-align: center; margin-bottom: 4rem; }
-    .sec-title { font-size: 2.5rem; font-weight: 900; margin-bottom: 1rem; color: #111; }
-    .sec-subtitle { color: #666; font-size: 1.1rem; max-width: 600px; margin: 0 auto; }
-
-    /* Contenedor del Slider */
-    .premium-slider-wrapper {
-        position: relative;
-        max-width: 1100px;
-        margin: 0 auto;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        min-height: 480px; /* Altura mínima fija para evitar saltos */
-    }
-
-    /* ESTILOS DE LA DIAPOSITIVA (Transición Suave) */
-    .p-slide {
-        /* Estado Inactivo (Oculto) */
-        display: flex; /* Flex para mantener estructura */
-        align-items: center;
-        justify-content: space-between;
-        width: 100%;
-        gap: 4rem;
-        
-        position: absolute; /* Superpuesto */
-        top: 0; left: 0;
-        
-        opacity: 0; /* Invisible */
-        transform: translateX(40px); /* Desplazado a la derecha */
-        visibility: hidden; /* Para que no capture clicks */
-        
-        /* LA MAGIA: Transición suave de 0.6s */
-        transition: 
-            opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1), 
-            transform 0.6s cubic-bezier(0.4, 0, 0.2, 1),
-            visibility 0.6s step-end;
-    }
-
-    .p-slide.active {
-        /* Estado Activo (Visible) */
-        position: relative; /* Ocupa espacio */
-        z-index: 2;
-        opacity: 1;
-        transform: translateX(0); /* En su lugar */
-        visibility: visible;
-        transition: 
-            opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1), 
-            transform 0.6s cubic-bezier(0.4, 0, 0.2, 1),
-            visibility 0s step-start;
-    }
-
-    /* Lado Izquierdo: Tarjeta Visual */
-    .slide-visual {
-        flex: 1;
-        background: white;
-        padding: 3rem;
-        border-radius: 24px;
-        box-shadow: 0 20px 60px rgba(0,0,0,0.08);
-        position: relative;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        min-height: 380px;
-    }
-
-    /* Elementos decorativos */
-    .brand-line { position: absolute; top: 30px; left: 30px; width: 4px; height: 30px; background: #ff7d41; border-radius: 2px; }
-    .visual-title { position: absolute; top: 32px; left: 45px; font-weight: 800; font-size: 1.2rem; color: #111; }
-
-    .slide-img-asset {
-        width: 100%;
-        max-width: 300px;
-        height: auto;
-        object-fit: contain;
-        filter: drop-shadow(0 15px 30px rgba(0,0,0,0.2));
-        transform: scale(1);
-        transition: transform 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
-    }
-    .p-slide:hover .slide-img-asset { transform: scale(1.08) translateY(-5px); }
-
-    /* Lado Derecho: Contenido Texto */
-    .slide-content { flex: 1.2; text-align: left; padding-right: 2rem; }
-    .slide-heading { font-size: 2.2rem; font-weight: 800; color: #111; margin-bottom: 1.5rem; line-height: 1.1; }
-    .slide-desc { font-size: 1.1rem; color: #555; line-height: 1.7; margin-bottom: 2rem; }
-    .slide-link { color: #ff7d41; font-weight: 700; text-decoration: none; font-size: 1.1rem; border-bottom: 2px solid transparent; transition: border 0.3s; }
-    .slide-link:hover { border-bottom-color: #ff7d41; }
-
-    /* Botones Navegación */
-    .slider-nav-btn {
-        background: #ff7d41; color: white; border: none; width: 56px; height: 56px;
-        border-radius: 50%; font-size: 1.2rem; cursor: pointer; transition: all 0.3s;
-        display: flex; align-items: center; justify-content: center;
-        box-shadow: 0 8px 25px rgba(255, 125, 65, 0.4); z-index: 10;
-        position: absolute; top: 50%; transform: translateY(-50%);
-    }
-    .slider-nav-btn:hover { background: #ff6018; transform: translateY(-50%) scale(1.1); }
-    .prev-btn { left: -80px; }
-    .next-btn { right: -80px; }
-
-    /* Indicadores (Dots) */
-    .slider-dots { display: flex; justify-content: center; gap: 12px; margin-top: 4rem; }
-    .dot { width: 12px; height: 12px; background: #e0e0e0; border-radius: 50%; cursor: pointer; transition: all 0.3s; }
-    .dot.active { background: #ff7d41; width: 40px; border-radius: 12px; }
-
-    /* =========================================
-       5. FEATURES (Pon tu precio & Why)
-       ========================================= */
-    .section-feature { padding: 7rem 8%; display: flex; align-items: center; gap: 6rem; position: relative; background: #fff; border-bottom: 1px solid #f4f4f4; }
-    .section-feature.reverse { flex-direction: row-reverse; background: #f9f9fa; }
-
-    .feat-content { flex: 1; z-index: 2; }
-    .feat-image-box { flex: 1; height: 550px; border-radius: 24px; overflow: hidden; box-shadow: 0 30px 60px rgba(0,0,0,0.1); position: relative; }
-    .feat-img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.8s; }
-    .feat-image-box:hover .feat-img { transform: scale(1.05); }
-
-    .feat-heading { font-size: 3rem; font-weight: 900; margin-bottom: 1.5rem; line-height: 1.1; color: #111; }
-    .feat-text { font-size: 1.2rem; color: #555; line-height: 1.7; margin-bottom: 1.5rem; }
-    .feat-intro { font-weight: 500; color: #333; }
-
-    .why-list { list-style: none; margin-top: 3rem; }
-    .why-item { display: flex; align-items: flex-start; gap: 1.2rem; margin-bottom: 2.5rem; }
-    .why-icon { color: #ff7d41; font-size: 1.4rem; margin-top: 2px; background: #fff4e5; padding: 14px; border-radius: 50%; min-width: 50px; text-align: center; }
-    .why-item h4 { font-weight: 800; font-size: 1.2rem; margin-bottom: 0.5rem; color: #111; }
-    .why-item p { font-size: 1.05rem; color: #666; line-height: 1.5; }
-
-    /* =========================================
-       6. CTA & LINKS
-       ========================================= */
-    .driver-cta { padding: 8rem 8%; background: #111; color: white; text-align: center; display: flex; flex-direction: column; align-items: center; }
-    .btn-white { background: white; color: #111; font-weight: 800; padding: 18px 48px; border-radius: 6px; text-decoration: none; margin-top: 3rem; transition: transform 0.2s; font-size: 1.2rem; }
-    .btn-white:hover { transform: scale(1.05); }
-
-    .info-links { padding: 5rem 8%; background: #fff; display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 4rem; border-top: 1px solid #eee; }
-    .link-col h3 { font-size: 1.4rem; font-weight: 800; margin-bottom: 1.2rem; color: #111; }
-    .link-col p { font-size: 1.05rem; color: #666; line-height: 1.7; }
-
-    /* =========================================
-       7. RESPONSIVE / MOBILE
-       ========================================= */
-    .mobile-header-block { display: none; margin-bottom: 1.5rem; }
-    .title-responsive { font-size: 2.2rem; font-weight: 900; color: #111; margin-bottom: 0.5rem; }
-    .text-responsive { font-size: 1.1rem; color: #666; }
-
-    @media (max-width: 900px) {
-        .hero-uniform { flex-direction: column-reverse; height: auto; }
-        .hero-side-img { width: 100%; height: 350px; }
-        .hero-side-text { width: 100%; padding: 4rem 5%; align-items: center; text-align: center; }
-        .hero-title { font-size: 2.8rem; }
-        .btn-hero { align-self: center; }
-        .banners-container { flex-direction: column; align-items: center; }
-        
-        .section-slider { padding: 4rem 5%; }
-        .premium-slider-wrapper { width: 100%; min-height: auto; display: block; }
-        /* En móvil, desactivamos el slider y ponemos stack */
-        .p-slide { position: relative; opacity: 1; transform: none; visibility: visible; display: flex; flex-direction: column; gap: 2rem; margin-bottom: 4rem; }
-        .prev-btn, .next-btn, .slider-dots { display: none; }
-        .slide-visual { width: 100%; padding: 2rem; min-height: 250px; }
-        .slide-content { text-align: center; padding: 0; }
-
-        .section-feature, .section-feature.reverse { flex-direction: column; padding: 4rem 5%; gap: 2rem; text-align: left; }
-        .feat-content .feat-heading, .feat-content .feat-intro { display: none; }
-        .mobile-header-block { display: block; }
-        .feat-image-box { width: 100%; height: 300px; box-shadow: none; border-radius: 16px; -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 15%, black 85%, transparent 100%); mask-image: linear-gradient(to bottom, transparent 0%, black 15%, black 85%, transparent 100%); }
-        .feat-heading { font-size: 2rem; }
-        .driver-cta { padding: 4rem 5%; }
-    }
-</style>
+<link rel="stylesheet" href="assets/secctions/css/paxManager.css">
 
 <section class="hero-uniform reveal-element">
     <div class="hero-side-text">
@@ -227,13 +12,6 @@
     </div>
 </section>
 
-<section class="section-banners">
-    <div class="banners-container">
-        <img src="assets/img/pax/pax1.png" alt="Promo 1" class="banner-img reveal-element">
-        <img src="assets/img/pax/pax2.png" alt="Promo 2" class="banner-img reveal-element delay-200">
-    </div>
-</section>
-
 <section class="section-slider">
     <div class="slider-header reveal-element">
         <h2 class="sec-title">Hay un DiDi para ti</h2>
@@ -241,76 +19,74 @@
     </div>
 
     <div class="premium-slider-wrapper reveal-element delay-200">
-        
         <button class="slider-nav-btn prev-btn" id="slider-prev"><i class="fa-solid fa-chevron-left"></i></button>
 
         <div class="p-slide active" data-index="0">
-            <div class="slide-visual">
-                <div class="brand-line"></div>
-                <div class="visual-title">DiDi Express</div>
-                <img src="assets/img/pax/carrusel/express.png" alt="Express" class="slide-img-asset">
-            </div>
-            <div class="slide-content">
-                <h3 class="slide-heading">DiDi Express México</h3>
-                <p class="slide-desc">La opción clásica. Vehículos particulares de 4 puertas, modelos recientes (2009 en adelante), con aire acondicionado, bolsas de aire y conductores verificados.</p>
-                <a href="#" class="slide-link">Pedir Express →</a>
+            <div class="unified-card">
+                <div class="card-left">
+                    <img src="assets/img/pax/carrusel/express.png" alt="Express" class="slide-img-asset">
+                </div>
+                <div class="card-right">
+                    <h3 class="slide-heading">DiDi Express México</h3>
+                    <p class="slide-desc">La opción clásica. Vehículos particulares, modelos recientes y conductores verificados.</p>
+                    <a href="#" class="slide-link">Pedir Express →</a>
+                </div>
             </div>
         </div>
 
         <div class="p-slide" data-index="1">
-            <div class="slide-visual">
-                <div class="brand-line"></div>
-                <div class="visual-title">DiDi Moto</div>
-                <img src="assets/img/pax/carrusel/moto.png" alt="Moto" class="slide-img-asset">
-            </div>
-            <div class="slide-content">
-                <h3 class="slide-heading">DiDi Moto México</h3>
-                <p class="slide-desc">Accede a las mejores tarifas con DiDi Moto. Llega antes a todos lados y evita el tráfico de la ciudad viajando de manera ágil.</p>
-                <a href="#" class="slide-link">Pedir Moto →</a>
+            <div class="unified-card">
+                <div class="card-left">
+                    <img src="assets/img/pax/carrusel/moto.png" alt="Moto" class="slide-img-asset">
+                </div>
+                <div class="card-right">
+                    <h3 class="slide-heading">DiDi Moto México</h3>
+                    <p class="slide-desc">Accede a las mejores tarifas con DiDi Moto. Llega antes y evita el tráfico.</p>
+                    <a href="#" class="slide-link">Pedir Moto →</a>
+                </div>
             </div>
         </div>
 
         <div class="p-slide" data-index="2">
-            <div class="slide-visual">
-                <div class="brand-line"></div>
-                <div class="visual-title">DiDi Taxi</div>
-                <img src="assets/img/pax/carrusel/taxi.png" alt="Taxi" class="slide-img-asset">
-            </div>
-            <div class="slide-content">
-                <h3 class="slide-heading">DiDi Taxi México</h3>
-                <p class="slide-desc">Ahora puedes pedir un taxi tradicional desde tu celular. Además, viaja más seguro al contar con las herramientas de seguridad DiDi.</p>
-                <a href="#" class="slide-link">Pedir Taxi →</a>
+            <div class="unified-card">
+                <div class="card-left">
+                    <img src="assets/img/pax/carrusel/taxi.png" alt="Taxi" class="slide-img-asset">
+                </div>
+                <div class="card-right">
+                    <h3 class="slide-heading">DiDi Taxi México</h3>
+                    <p class="slide-desc">Pide un taxi tradicional desde tu celular. Viaja más seguro con la app.</p>
+                    <a href="#" class="slide-link">Pedir Taxi →</a>
+                </div>
             </div>
         </div>
 
         <div class="p-slide" data-index="3">
-            <div class="slide-visual">
-                <div class="brand-line"></div>
-                <div class="visual-title">DiDi Economy</div>
-                <img src="assets/img/pax/carrusel/economy.png" alt="Economy" class="slide-img-asset">
-            </div>
-            <div class="slide-content">
-                <h3 class="slide-heading">DiDi Economy México</h3>
-                <p class="slide-desc">Viaja con precios más económicos en ciertos horarios y disfrutando de la misma calidad y conveniencia que DiDi Express.</p>
-                <a href="#" class="slide-link">Ver horarios →</a>
+            <div class="unified-card">
+                <div class="card-left">
+                    <img src="assets/img/pax/carrusel/economy.png" alt="Economy" class="slide-img-asset">
+                </div>
+                <div class="card-right">
+                    <h3 class="slide-heading">DiDi Economy México</h3>
+                    <p class="slide-desc">Viaja con precios más económicos en ciertos horarios con la misma calidad.</p>
+                    <a href="#" class="slide-link">Ver horarios →</a>
+                </div>
             </div>
         </div>
 
          <div class="p-slide" data-index="4">
-            <div class="slide-visual">
-                <div class="brand-line"></div>
-                <div class="visual-title">DiDi Entrega</div>
-                <img src="assets/img/pax/carrusel/entrega.png" alt="Entrega" class="slide-img-asset">
-            </div>
-            <div class="slide-content">
-                <h3 class="slide-heading">DiDi Entrega México</h3>
-                <p class="slide-desc">Envía o recibe paquetes, productos y documentos, de manera personal o para tu negocio. Rápido y rastreable.</p>
-                <a href="#" class="slide-link">Hacer envío →</a>
+            <div class="unified-card">
+                <div class="card-left">
+                    <img src="assets/img/pax/carrusel/entrega.png" alt="Entrega" class="slide-img-asset">
+                </div>
+                <div class="card-right">
+                    <h3 class="slide-heading">DiDi Entrega México</h3>
+                    <p class="slide-desc">Envía o recibe paquetes de forma rápida, segura y rastreable.</p>
+                    <a href="#" class="slide-link">Hacer envío →</a>
+                </div>
             </div>
         </div>
 
         <button class="slider-nav-btn next-btn" id="slider-next"><i class="fa-solid fa-chevron-right"></i></button>
-
     </div>
 
     <div class="slider-dots reveal-element delay-300" id="slider-dots-container">
@@ -320,6 +96,110 @@
         <div class="dot" data-idx="3"></div>
         <div class="dot" data-idx="4"></div>
     </div>
+</section>
+
+<section class="section-travel reveal-element">
+    <div class="travel-intro">
+        <h2 class="sec-title">DiDi Travel</h2>
+        <p class="sec-subtitle">Todo desde la app de DiDi.</p>
+    </div>
+
+    <div class="travel-grid">
+        <div class="travel-card">
+            <div class="travel-img-box">
+                <img src="assets/img/pax/travel/aereopuerto.webp" alt="Vuelos" class="travel-img">
+            </div>
+            <div class="travel-info">
+                <h3 class="travel-title">Vuelos</h3>
+                <p class="travel-desc">Reserva vuelos nacionales e internacionales, con más de 51 aerolíneas asociadas.</p>
+            </div>
+        </div>
+        <div class="travel-card">
+            <div class="travel-img-box">
+                <img src="assets/img/pax/travel/vistas.webp" alt="Paquetes" class="travel-img">
+            </div>
+            <div class="travel-info">
+                <h3 class="travel-title">Paquetes</h3>
+                <p class="travel-desc">Arma tu viaje completo en un solo paso y ahorra más combinando vuelos + hotel + actividades.</p>
+            </div>
+        </div>
+        <div class="travel-card">
+            <div class="travel-img-box">
+                <img src="assets/img/pax/travel/hotel.webp" alt="Hoteles" class="travel-img">
+            </div>
+            <div class="travel-info">
+                <h3 class="travel-title">Hoteles</h3>
+                <p class="travel-desc">Hospédate en más de 1.5 millones de opciones, incluyendo hoteles, departamentos y experiencias únicas.</p>
+            </div>
+        </div>
+        <div class="travel-card">
+            <div class="travel-img-box">
+                <img src="assets/img/pax/travel/oceano.webp" alt="Actividades" class="travel-img">
+            </div>
+            <div class="travel-info">
+                <h3 class="travel-title">Actividades</h3>
+                <p class="travel-desc">Descubre qué hacer en tu destino y reserva tours, parques, shows y atracciones sin filas.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="travel-features-container">
+        <div class="travel-feat-list">
+            <h3 style="font-size: 1.8rem; font-weight: 800; margin-bottom: 1rem;">Planea tu viaje de principio a fin</h3>
+            
+            <div class="tf-item">
+                <img src="assets/img/pax/travel/money.svg" class="tf-icon" alt="Promociones">
+                <span class="tf-text">Promociones y descuentos todos los días</span>
+            </div>
+            <div class="tf-item">
+                <img src="assets/img/pax/travel/corazon.svg" class="tf-icon" alt="Seguridad">
+                <span class="tf-text">Paga de forma segura desde la app</span>
+            </div>
+            <div class="tf-item">
+                <img src="assets/img/pax/travel/ubicacion.svg" class="tf-icon" alt="Planificación">
+                <span class="tf-text">Con DiDi Travel, planeas tus viajes de principio a fin.</span>
+            </div>
+        </div>
+        <img src="assets/img/pax/travel/imagen completa.webp" alt="DiDi Travel App" class="travel-feat-img">
+    </div>
+</section>
+
+<section class="section-didi-club reveal-element">
+    <div class="club-header">
+        <h2 class="sec-title">DiDi Club</h2>
+        <p class="sec-subtitle">Disfruta de lo que más amas de DiDi ahora con envíos gratis, descuentos en todos tus viajes y más.</p>
+        <span class="club-price">por $69m.n. / mes</span>
+    </div>
+
+    <div class="club-grid">
+        <div class="club-item">
+            <img src="assets/img/pax/club/Delivery bag.svg" alt="Delivery" class="club-icon">
+            <p class="club-desc">Envíos gratis ilimitados en tus pedidos de DiDi Food y DiDi Shop</p>
+        </div>
+        <div class="club-item">
+            <img src="assets/img/pax/club/Food.svg" alt="Restaurantes" class="club-icon">
+            <p class="club-desc">Descuentos Exclusivos en restaurantes seleccionados</p>
+        </div>
+        <div class="club-item">
+            <img src="assets/img/pax/club/Passenger.svg" alt="Cumpleaños Viaje" class="club-icon">
+            <p class="club-desc">En el mes de tu cumple 50% OFF en un viaje de DiDi Express o Moto</p>
+        </div>
+        <div class="club-item">
+            <img src="assets/img/pax/club/Earn with DiDi.svg" alt="Descuento Viajes" class="club-icon">
+            <p class="club-desc">5% OFF en todos tus viajes con DiDi Express, Moto y Taxi</p>
+        </div>
+        <div class="club-item">
+            <img src="assets/img/pax/club/Courier with bag.svg" alt="Descuento Entrega" class="club-icon">
+            <p class="club-desc">5% OFF en todos tus envíos con DiDi Entrega</p>
+        </div>
+        <div class="club-item">
+            <img src="assets/img/pax/club/Food.svg" alt="Cumpleaños Food" class="club-icon">
+            <p class="club-desc">Cupón de descuento en el mes de tu cumple de 25% de descuento en DiDi Food</p>
+        </div>
+    </div>
+
+    <h3 class="club-cta-text">¿Qué esperas para tenerlo todo en una sola app?</h3>
+    <a href="#" class="btn-hero">¡Lleva tu experiencia a otro nivel!</a>
 </section>
 
 <section class="section-feature reveal-element">
@@ -337,7 +217,7 @@
         <span class="hero-tag" style="display: block; margin-bottom: 0.5rem;" class="feat-intro">Nuevo en México</span>
         <h2 class="feat-heading">DiDi Pon tu Precio</h2>
         <p class="feat-text feat-intro">Ve donde quieras, como quieras y pagando lo que quieras. ¡Tú eliges, nosotros te damos la flexibilidad!</p>
-        <p class="feat-text">Elige el precio sin afectar tu seguridad. Negocia la tarifa sugerida con el conductor y llega a un acuerdo que beneficie a ambos. Disponible en ciudades seleccionadas.</p>
+        <p class="feat-text">Negocia la tarifa sugerida con el conductor y llega a un acuerdo que beneficie a ambos. Disponible en ciudades seleccionadas.</p>
     </div>
 </section>
 
@@ -372,12 +252,6 @@
             </li>
         </ul>
     </div>
-</section>
-
-<section class="driver-cta reveal-element">
-    <h2 style="font-size: 3rem; font-weight: 900; margin-bottom: 1.5rem;">¿Quieres ser Socio Conductor?</h2>
-    <p style="font-size: 1.3rem; max-width: 700px; opacity: 0.9;">Elige tus horarios y obtén ganancias garantizadas.</p>
-    <a href="#" class="btn-white">Regístrate en DiDi Conductor</a>
 </section>
 
 <section class="info-links reveal-element">
